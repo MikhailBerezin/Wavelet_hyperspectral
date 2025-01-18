@@ -173,7 +173,8 @@ function wavelet_transform(varargin)
 
         % Create a unique filename based on the wavelet type and level
         filename = sprintf('Wavelet_compressed_datacube_%s_%d.mat', wavelet_type, level);
-        save(fullfile(prompt_folder, filename), 'compressed_data_3D', '-v7.3');
+        Image = compressed_data_3D;
+        save(fullfile(prompt_folder, filename), 'Image', '-v7.3');
 
         % Update progress dialog
         progressDialog.Value = 0.9;
@@ -217,14 +218,16 @@ function wavelet_transform(varargin)
                           wavelet_type, level, (dir(fullfile(prompt_folder, filename)).bytes) / 1024^2, compression_ratio);
         msgbox(message, 'Compression', 'help');
         % Define the message and title
-message = 'Wavelet compression is complete. You might open the compressed file. You can also match a scale.';
+% message = 'Wavelet compression is complete. You might open the compressed file. You can also match a scale.';
 title = 'Compression Complete';
 
 % Create the message box with an 'OK' button
 msgbox(message, title, 'help');
 
 
+ChannelToWavelength;
 
+add_wavelength_scale;
     
     end
 end

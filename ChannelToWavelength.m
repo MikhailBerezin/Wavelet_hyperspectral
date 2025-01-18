@@ -11,7 +11,7 @@ else
     originalFilePath = fullfile(originalPath, originalFile);
 end
 
-% Ask the user to select the compressed Excel file
+% Select the compressed Excel file
 [compressedFile, compressedPath] = uigetfile('*.xlsx', 'Select the Compressed Excel File', originalPath);
 if isequal(compressedFile, 0)
     disp('User selected Cancel');
@@ -58,7 +58,7 @@ mapped_wavelengths = coeffs(1) * channels + coeffs(2);
 
 
 % Create the main uifigure
-fig1 = uifigure('Name', 'Spectra Matching Analysis', 'Position', [100, 100, 600, 600], 'Icon', 'idcube-icon-transparent.png', 'Color', [0.9 0.9 0.9]);
+fig1 = uifigure('Name', 'Spectra Matching Analysis', 'Position', [100, 100, 600, 600], 'Color', [0.9 0.9 0.9]);
 
 % Create UI Axes for plotting with modern UI style
 ax1 = uiaxes(fig1, 'Position', [50, 450, 500, 100]);
@@ -134,7 +134,7 @@ disp(['Normalized RMSE: ' num2str(rmse)]);
 disp(['Correlation between Original and Compressed Spectra with matched wavelenghts: ' num2str(correlation_value)]);
 
 % Create a separate uifigure for the comparison of normalized spectra
-fig2 = uifigure('Name', 'Comparison of Normalized Spectra', 'Position', [100, 100, 600, 300], 'Icon', 'idcube-icon-transparent.png', 'Color', [0.9 0.9 0.9]);
+fig2 = uifigure('Name', 'Comparison of Normalized Spectra', 'Position', [100, 100, 600, 300], 'Color', [0.9 0.9 0.9]);
 
 % Create UI Axes in the new uifigure
 ax5 = uiaxes(fig2, 'Position', [50, 50, 500, 200]);
@@ -159,8 +159,8 @@ ylabel(ax5, 'Normalized Intensity');
 legend(ax5, 'show');
 
 
-% Ask the user if they want to save the new wavelengths file using uiconfirm
-fig3 = uifigure('Name', '', 'Position', [600, 300, 370, 175], 'Icon', 'idcube-icon-transparent.png');
+% Save the new wavelengths file 
+fig3 = uifigure('Name', '', 'Position', [600, 300, 370, 175]);
 saveResponse = uiconfirm(fig3, 'Do you want to save the new scale?', ...
                          'Save New Wavelengths', ...
                          'Options', {'Yes', 'No'}, ...
@@ -169,7 +169,7 @@ saveResponse = uiconfirm(fig3, 'Do you want to save the new scale?', ...
 
 % Handle the response
 if strcmp(saveResponse, 'Yes')
-    % Ask the user where to save the new wavelengths Excel file
+    % Save the new wavelengths Excel file
    delete(fig3)
     [newFileName, newFilePath] = uiputfile('*.xlsx', 'Saving the new scale', originalPath);
     if isequal(newFileName, 0)
