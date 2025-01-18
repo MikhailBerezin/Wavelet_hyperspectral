@@ -1,2 +1,2 @@
 # Wavelet_hyperspectral
-Performs hyperspectral conversion
+Performs wavelet comression of hyperspectral conversion
