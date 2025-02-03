@@ -9,7 +9,7 @@ The `wavelet_transform` function is developed by the Berezin Lab, Washington Uni
 
 **STEP 1.**  
 
-Performs wavelet compression of hyperspectral data with `wavelet_transform`.
+Performs wavelet compression of hyperspectral data with `wavelet_transform' or with 'wavelet_transform_entropy'
 
 **Key Features**
 1. Interactive File Selection:
@@ -28,7 +28,7 @@ Performs wavelet compression of hyperspectral data with `wavelet_transform`.
 **HOW TO USE**
 
 1. Run the Function:
-   - Call the function `wavelet_transform` from the MATLAB command window.
+   - Call the function `wavelet_transform` from the MATLAB command window. Alternatively run the function 'wavelet_transform_entropy'
 2. Select Hyperspectral Data:
    - Choose a `.mat` file with an `Image` variable (3D datacube) and optionally `Wavelength`.
 3. Configure Compression:
@@ -40,7 +40,7 @@ Performs wavelet compression of hyperspectral data with `wavelet_transform`.
 
 **Parameters and Options
     - Wavelet Types: Choose from `db1`, `db2`, `coif1`, `sym2`, etc.
-    - Decomposition Levels: Select levels from `1` to `10`, controlling the compression depth.
+    - Decomposition Levels: Select levels from `1` to `10`, controlling the compression depth. For the entropy function select a threshold, and two different DbN
     - Crop bands: Adjusts bands retained using a retaining parameter (default 1.1).
 
 **File Outputs**
@@ -90,6 +90,10 @@ The function maps the wavelengths of the original dataset to the compressed data
 **Function Details**
     - Smoothing: Averages intensity over three points.
     - Mapping: Uses a linear fit between channels and wavelengths based on the first, peak, and last points.
+
+** Alternative STEP 2**: 
+function AccurateChannelToWavelengthCropping(varargin)
+similar to the STEP 1 except it crops the bands of the compressed image to improve the matching process
 
 
 # Dependencies
