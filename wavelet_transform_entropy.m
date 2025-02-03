@@ -1,10 +1,8 @@
-function wavelet_transform(varargin)
+function wavelet_transform_entropy(varargin)
     % Berezin Lab, Washington University 2025
-    % Perform wavelet compression with entropy-based classification
-    % Sharp spectra (low entropy): Use Db1
-    % Smooth spectra (high entropy): Use Db3
 
-    % Prompt the user to select a file to load hyperspectral data
+
+    % Prompt to select a file to load hyperspectral data
     [fileName, pathName] = uigetfile({'*.mat', 'MAT-files (*.mat)'}, 'Select Hyperspectral Data File');
     
     if isequal(fileName, 0)
@@ -38,7 +36,7 @@ function wavelet_transform(varargin)
     data = reshape(image, [n_rows * n_cols, n_bands]);
 
     % Compute entropy for each spectrum
-    entropyThreshold = 8.78; % Adjust based on data
+    entropyThreshold = 8.7; % Adjust the threshold based on data from the entropy map
     entropyValues = zeros(n_rows * n_cols, 1);
     waveletTypes = cell(n_rows * n_cols, 1);
 tic
@@ -49,9 +47,9 @@ tic
         
         % Classify based on entropy
         if entropyValues(i) > entropyThreshold
-            waveletTypes{i} = 'db3'; % Smooth spectrum
+            waveletTypes{i} = 'db1'; % high entropy; change the wavelet type if needed
         else
-            waveletTypes{i} = 'db1'; % Sharp spectrum
+            waveletTypes{i} = 'db3'; % low entropy; change the wavelet type if needed
         end
     end
 
@@ -66,13 +64,13 @@ tic
 %     colormap([1 0 0; 0 0 1]); % Red for sharp (Db1), Blue for smooth (Db3)
 
      imagesc(entropyMap);
-    colorbar('Ticks', [0, 1], 'TickLabels', {'Sharp (Db1)', 'Smooth (Db3)'});
-    title('Classification Map: Sharp (Red) vs Smooth (Blue)');
+%     colorbar('Ticks', [0, 1], 'TickLabels', {'Sharp (Db1)', 'Smooth (Db3)'});
+    title('Shannon Entropy of the Image');
     xlabel('X Pixel');
     ylabel('Y Pixel');
 
     % Perform wavelet compression based on entropy classification
-    level = 3; % Example decomposition level
+    level = 3; % Change decomposition level if needed
     wavelet_coeffs = cell(n_rows * n_cols, 1);
     for i = 1:n_rows * n_cols
         waveletType = waveletTypes{i};
@@ -80,6 +78,7 @@ tic
     end
 toc
     % Determine how many bands to keep based on the decomposition level
+    
     keep_fraction = 1.1 * 2^(-level); % Fraction of bands to keep
     num_bands_to_keep = max(3, round(n_bands * keep_fraction));
     trimmed_coeffs = cell(size(wavelet_coeffs));
